@@ -2,7 +2,7 @@
 
 A comprehensive, AI-powered data analytics platform built with Streamlit, featuring advanced machine learning, natural language query processing, and enterprise-grade performance optimization.
 
-## 🚀 Features
+## Features
 
 ### Core Analytics
 - **AI-Powered Data Analysis**: Natural language queries for data exploration
@@ -24,19 +24,19 @@ A comprehensive, AI-powered data analytics platform built with Streamlit, featur
 - **Multi-file Processing**: Batch upload and processing capabilities
 - **Export Features**: Data, charts, and reports in multiple formats
 
-## 📋 System Requirements
+## System Requirements
 
 - **Python**: 3.7 or higher
 - **RAM**: 4GB minimum (8GB recommended)
 - **Storage**: 500MB for dependencies
 - **OS**: Windows, macOS, or Linux
 
-## 🛠️ Installation
+## Installation
 
 ### 1. Clone or Download
 ```bash
 # If you have git
-git clone https://github.com/AlexBiobelemo/Project-Eve
+git clone https://github.com/AlexBiobelemo/Project-Eve-Premium
 
 # Or download the files directly
 ```
@@ -177,7 +177,7 @@ python test_app_production.py
 - **ML Training**: +100-200MB temporary
 - **Large Dataset (1M rows)**: Auto-sampled to stay under 1GB
 
-## 🔐 Security Features
+## Security Features
 
 - **Input Validation**: All user inputs validated and sanitized
 - **File Type Validation**: Only approved file types accepted
@@ -257,4 +257,5 @@ After installation:
 4. **Create Visualizations** - Build interactive charts and dashboards
 5. **Train ML Models** - Experience AutoML with model comparison
 6. **Monitor Performance** - Check system resources in real-time
+
 
