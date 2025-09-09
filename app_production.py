@@ -45,13 +45,13 @@ warnings.filterwarnings('ignore')
 
 # --- Production Configuration ---
 st.set_page_config(
-    page_title="Enterprise Data Analytics Platform - Production",
+    page_title="Enterprise Data Analytics Platform",
     layout="wide",
     initial_sidebar_state="expanded",
     menu_items={
         'Get Help': None,
         'Report a bug': None,
-        'About': "Enterprise Data Analytics Platform v2.0 - Production Ready"
+        'About': "Enterprise Data Analytics Platform"
     }
 )
 
@@ -1305,7 +1305,7 @@ def process_natural_query_production(query: str) -> Dict[str, Any]:
                         if filtered_rows == 0:
                             response["message"] += "\n⚠️ No rows match the filter criteria."
                         elif filtered_rows < original_rows * 0.1:
-                            response["message"] += "\n💡 Filter removed most data. Consider adjusting criteria."
+                            response["message"] += "\n Filter removed most data. Consider adjusting criteria."
                         
                         response["success"] = True
                         response["action"] = "filter_data"
@@ -1390,7 +1390,7 @@ def process_natural_query_production(query: str) -> Dict[str, Any]:
 
 # --- Enhanced UI Components ---
 def create_production_layout():
-    """Create production-ready responsive layout with enhanced themes."""
+    """Create responsive layout with enhanced themes."""
     try:
         theme = st.session_state.theme_preference
         
@@ -1464,7 +1464,7 @@ def create_production_layout():
             if memory_info['warning']:
                 st.sidebar.warning(f"⚠️ High memory usage: {memory_info['current_mb']:.0f}MB")
             elif memory_info['current_mb'] > 100:
-                st.sidebar.info(f"💾 Memory: {memory_info['current_mb']:.0f}MB")
+                st.sidebar.info(f"Memory: {memory_info['current_mb']:.0f}MB")
                 
     except Exception as e:
         if LOGGING_ENABLED:
@@ -1473,7 +1473,7 @@ def create_production_layout():
 def show_performance_metrics():
     """Display performance metrics in sidebar."""
     try:
-        with st.sidebar.expander("⚡ Performance Monitor", expanded=False):
+        with st.sidebar.expander(" Performance Monitor", expanded=False):
             memory_info = monitor_memory_usage()
             
             if 'error' not in memory_info:
@@ -1492,14 +1492,14 @@ def show_performance_metrics():
                 elif memory_info['warning']:
                     st.warning("⚠️ High memory usage")
                 else:
-                    st.success("✅ Normal performance")
+                    st.success("Normal performance")
                 
                 # Cached models info
                 if st.session_state.trained_models:
-                    st.info(f"🤖 {len(st.session_state.trained_models)} cached models")
+                    st.info(f"{len(st.session_state.trained_models)} cached models")
                 
                 # Cleanup button
-                if st.button("🧹 Clean Memory", key="cleanup_memory_btn"):
+                if st.button(" Clean Memory", key="cleanup_memory_btn"):
                     cleanup_memory()
                     st.success("Memory cleaned!")
                     st.rerun()
@@ -1522,12 +1522,12 @@ def main_production():
         header_col1, header_col2, header_col3, header_col4 = st.columns([3, 1, 1, 1])
         
         with header_col1:
-            st.title("🚀 Enterprise Data Analytics Platform - Production")
+            st.title(" Enterprise Data Analytics Platform - Production")
             st.markdown("*AI-Powered • Production-Ready • Performance-Optimized*")
         
         with header_col2:
             theme_choice = st.selectbox(
-                "🎨 Theme",
+                "Theme",
                 ACCESSIBILITY_THEMES,
                 index=ACCESSIBILITY_THEMES.index(st.session_state.theme_preference),
                 key="theme_selector_prod"
@@ -1538,26 +1538,26 @@ def main_production():
         
         with header_col3:
             perf_mode = st.selectbox(
-                "⚡ Mode",
+                "Mode",
                 ["Balanced", "Performance", "Quality"],
                 key="perf_mode_selector"
             )
             st.session_state.user_preferences['performance_mode'] = perf_mode.lower()
         
         with header_col4:
-            if st.button("🔄 Refresh", help="Refresh application", key="refresh_prod_btn"):
+            if st.button("Refresh", help="Refresh application", key="refresh_prod_btn"):
                 st.rerun()
         
         # Performance monitoring in sidebar
         show_performance_metrics()
         
         # File upload section with enhanced validation
-        st.subheader("📁 Data Upload & Management")
+        st.subheader("Data Upload & Management")
         
         upload_col1, upload_col2 = st.columns([3, 1])
         
         with upload_col1:
-            file_type = st.selectbox("📄 File Type", FILE_TYPES, help="Select your data format")
+            file_type = st.selectbox("File Type", FILE_TYPES, help="Select your data format")
             uploaded_files = st.file_uploader(
                 "Upload Data Files (Multiple files supported)",
                 type=['csv', 'xlsx', 'json', 'xls'],
@@ -1566,7 +1566,7 @@ def main_production():
             )
         
         with upload_col2:
-            if st.button("🎲 Load Demo Data", key="demo_data_prod_btn"):
+            if st.button("Load Demo Data", key="demo_data_prod_btn"):
                 try:
                     # Create more realistic demo data
                     np.random.seed(42)
@@ -1622,7 +1622,7 @@ def main_production():
                     st.session_state.selected_df = demo_data
                     st.session_state.data_loaded = True
                     
-                    st.success(f"✅ Demo dataset loaded! ({len(demo_data):,} rows × {len(demo_data.columns)} columns)")
+                    st.success(f"Demo dataset loaded! ({len(demo_data):,} rows × {len(demo_data.columns)} columns)")
                     st.rerun()
                     
                 except Exception as e:
@@ -1644,7 +1644,7 @@ def main_production():
                 cleanup_memory()
             
             # Process files with progress tracking
-            with st.spinner("🔄 Processing files with enterprise-grade validation..."):
+            with st.spinner("Processing files with enterprise-grade validation..."):
                 progress_bar = st.progress(0)
                 load_metrics = {'files_loaded': 0, 'total_rows': 0, 'errors': 0}
                 
@@ -1659,7 +1659,7 @@ def main_production():
                         uploaded_file.seek(0)
                         
                         if file_size_mb > 500:  # 500MB limit
-                            st.error(f"❌ File {uploaded_file.name} is too large ({file_size_mb:.1f}MB > 500MB)")
+                            st.error(f"File {uploaded_file.name} is too large ({file_size_mb:.1f}MB > 500MB)")
                             load_metrics['errors'] += 1
                             continue
                         
@@ -1681,17 +1681,17 @@ def main_production():
                             speed_mb_s = file_size_mb / load_time if load_time > 0 else 0
                             
                             st.success(
-                                f"✅ **{uploaded_file.name}**: "
+                                f"**{uploaded_file.name}**: "
                                 f"{df.shape[0]:,} × {df.shape[1]} | "
-                                f"⚡ {speed_mb_s:.1f} MB/s | "
+                                f"{speed_mb_s:.1f} MB/s | "
                                 f"Quality: {quality_score:.0f}/100 {quality_icon}"
                             )
                         else:
-                            st.error(f"❌ Failed to load {uploaded_file.name}")
+                            st.error(f"Failed to load {uploaded_file.name}")
                             load_metrics['errors'] += 1
                             
                     except Exception as e:
-                        st.error(f"❌ Error processing {uploaded_file.name}: {str(e)}")
+                        st.error(f"Error processing {uploaded_file.name}: {str(e)}")
                         load_metrics['errors'] += 1
                         if LOGGING_ENABLED:
                             logging.error(f"File processing error for {uploaded_file.name}: {e}")
@@ -1700,11 +1700,11 @@ def main_production():
                 if load_metrics['files_loaded'] > 0:
                     metric_col1, metric_col2, metric_col3, metric_col4 = st.columns(4)
                     with metric_col1:
-                        st.metric("✅ Files Loaded", load_metrics['files_loaded'])
+                        st.metric("Files Loaded", load_metrics['files_loaded'])
                     with metric_col2:
-                        st.metric("📊 Total Rows", f"{load_metrics['total_rows']:,}")
+                        st.metric("Total Rows", f"{load_metrics['total_rows']:,}")
                     with metric_col3:
-                        st.metric("❌ Errors", load_metrics['errors'])
+                        st.metric("Errors", load_metrics['errors'])
                     with metric_col4:
                         success_rate = (load_metrics['files_loaded'] / len(uploaded_files)) * 100
                         st.metric("Success Rate", f"{success_rate:.0f}%")
@@ -1712,14 +1712,14 @@ def main_production():
         # Check if any data is loaded
         if not st.session_state.dfs and not st.session_state.data_loaded:
             # Enhanced welcome screen
-            st.info("👋 Welcome to the Enterprise Data Analytics Platform - Production Edition")
+            st.info("Welcome to the Enterprise Data Analytics Platform")
             
             # Feature showcase
             feature_col1, feature_col2, feature_col3 = st.columns(3)
             
             with feature_col1:
                 st.markdown("""
-                ### 🤖 AI-Powered Analytics
+                ### AI-Powered Analytics
                 - Natural language queries
                 - Intelligent data cleaning
                 - Automated anomaly detection
@@ -1729,7 +1729,7 @@ def main_production():
             
             with feature_col2:
                 st.markdown("""
-                ### 🚀 Production Features
+                ### Production Features
                 - Memory optimization
                 - Error recovery systems
                 - Performance monitoring
@@ -1739,7 +1739,7 @@ def main_production():
             
             with feature_col3:
                 st.markdown("""
-                ### 📊 Enterprise Capabilities
+                ### Enterprise Capabilities
                 - Large dataset handling
                 - Multi-file processing
                 - Advanced visualizations
@@ -1750,11 +1750,11 @@ def main_production():
             return
         
         if not st.session_state.dfs:
-            st.error("❌ No files were successfully loaded. Please check your file formats and try again.")
+            st.error("No files were successfully loaded. Please check your file formats and try again.")
             return
         
         # Dataset selection with enhanced information
-        st.subheader("🔍 Dataset Selection & Overview")
+        st.subheader("Dataset Selection & Overview")
         
         selected_file = st.selectbox(
             "Choose dataset for analysis:",
@@ -1770,7 +1770,7 @@ def main_production():
         st.session_state.selected_df = df
         
         if df is None or df.empty:
-            st.error("❌ The selected dataset is empty.")
+            st.error("The selected dataset is empty.")
             return
         
         st.session_state.data_loaded = True
@@ -1784,35 +1784,35 @@ def main_production():
         datetime_cols = df.select_dtypes(include=['datetime64']).columns.tolist()
         
         with overview_col1:
-            st.metric("📏 Rows", f"{len(df):,}")
+            st.metric("Rows", f"{len(df):,}")
         with overview_col2:
-            st.metric("📊 Columns", f"{len(df.columns)}")
+            st.metric("Columns", f"{len(df.columns)}")
         with overview_col3:
-            st.metric("🔢 Numeric", len(numeric_cols))
+            st.metric("Numeric", len(numeric_cols))
         with overview_col4:
-            st.metric("📝 Categorical", len(categorical_cols))
+            st.metric("Categorical", len(categorical_cols))
         with overview_col5:
             memory_mb = df.memory_usage(deep=True).sum() / (1024 * 1024)
-            st.metric("💾 Memory", f"{memory_mb:.1f}MB")
+            st.metric("Memory", f"{memory_mb:.1f}MB")
         with overview_col6:
             quality_score = df.attrs.get('quality_score', 0)
             quality_color = "🟢" if quality_score > 80 else "🟡" if quality_score > 60 else "🔴"
-            st.metric("⭐ Quality", f"{quality_score:.0f}/100", delta=quality_color)
+            st.metric("Quality", f"{quality_score:.0f}/100", delta=quality_color)
         
         # Main application tabs with enhanced features
         tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
-            "🤖 AI Assistant",
-            "📊 Analytics",
-            "🔍 Data Explorer",
-            "🧹 Data Cleaning",
-            "🚨 Anomaly Detection",
-            "📈 Visualizations",
-            "🧠 ML Studio",
-            "⚙️ Settings"
+            "AI Assistant",
+            "Analytics",
+            "Data Explorer",
+            "Data Cleaning",
+            "Anomaly Detection",
+            "Visualizations",
+            "ML Studio",
+            "⚙Settings"
         ])
         
         with tab1:
-            st.header("🤖 Conversational AI Assistant")
+            st.header("Conversational AI Assistant")
             st.markdown("*Ask questions about your data in natural language*")
             
             # Enhanced chat interface
@@ -1828,7 +1828,7 @@ def main_production():
                         with st.chat_message("assistant"):
                             st.write(chat["response"])
                             if chat.get("success"):
-                                st.success("✅ Action completed successfully")
+                                st.success("Action completed successfully")
             
             # Chat input with suggestions
             example_queries = [
@@ -1839,9 +1839,9 @@ def main_production():
                 "Drop column with high missing values"
             ]
             
-            with st.expander("💡 Example Queries", expanded=False):
+            with st.expander("Example Queries", expanded=False):
                 for query in example_queries:
-                    if st.button(f"💬 {query}", key=f"example_{query}"):
+                    if st.button(f"{query}", key=f"example_{query}"):
                         response = process_natural_query_production(query)
                         st.session_state.chat_history.append({
                             "query": query,
@@ -1852,7 +1852,7 @@ def main_production():
             
             # Main chat input
             if query := st.chat_input("Ask about your data...", key="main_chat_input"):
-                with st.spinner("🤔 Processing your question..."):
+                with st.spinner("Processing your question..."):
                     response = process_natural_query_production(query)
                     
                     st.session_state.chat_history.append({
@@ -1862,15 +1862,15 @@ def main_production():
                     })
                     
                     if response["success"]:
-                        st.success("✅ " + response["message"])
+                        st.success("" + response["message"])
                     else:
-                        st.info("ℹ️ " + response["message"])
+                        st.info("" + response["message"])
                     
                     if response.get("action"):
                         st.rerun()
         
         with tab2:
-            st.header("📊 Enterprise Data Analytics")
+            st.header("Enterprise Data Analytics")
             
             try:
                 # Compute enhanced EDA
@@ -1880,23 +1880,23 @@ def main_production():
                     st.error(f"Analytics computation failed: {eda_data['error']}")
                 else:
                     # Key insights section
-                    st.subheader("🔍 Key Data Insights")
+                    st.subheader("Key Data Insights")
                     insight_col1, insight_col2 = st.columns([2, 1])
                     
                     with insight_col1:
                         for insight in eda_data.get('insights', ['No insights available'])[:4]:
-                            st.info(f"💡 {insight}")
+                            st.info(f"{insight}")
                         
                         # Recommendations
                         if eda_data.get('recommendations'):
-                            st.subheader("🎯 AI Recommendations")
+                            st.subheader("AI Recommendations")
                             for rec in eda_data.get('recommendations', [])[:3]:
-                                st.success(f"✅ {rec}")
+                                st.success(f"{rec}")
                     
                     with insight_col2:
                         # Quick stats visualization
                         if len(numeric_cols) > 0:
-                            st.write("**📈 Numeric Trends (Sample)**")
+                            st.write("**Numeric Trends (Sample)**")
                             for col in numeric_cols[:3]:
                                 try:
                                     sample_data = df[col].dropna().sample(min(1000, len(df[col].dropna())), random_state=42)
@@ -1921,7 +1921,7 @@ def main_production():
                                         logging.warning(f"Mini histogram error for {col}: {e}")
                     
                     # Detailed analytics in expandable section
-                    with st.expander("📋 Detailed Dataset Analysis", expanded=False):
+                    with st.expander("Detailed Dataset Analysis", expanded=False):
                         detail_col1, detail_col2 = st.columns(2)
                         
                         with detail_col1:
@@ -1960,7 +1960,7 @@ def main_production():
                             )
                         
                         # Performance metrics
-                        st.markdown("**🔧 Processing Performance**")
+                        st.markdown("**Processing Performance**")
                         perf_col1, perf_col2, perf_col3 = st.columns(3)
                         with perf_col1:
                             st.metric("Sample Size", f"{eda_data.get('sample_size', 0):,}")
@@ -1971,12 +1971,12 @@ def main_production():
                             st.metric("Cached Models", len(st.session_state.trained_models))
             
             except Exception as e:
-                st.error(f"❌ Analytics computation failed: {str(e)}")
+                st.error(f"Analytics computation failed: {str(e)}")
                 if LOGGING_ENABLED:
                     logging.error(f"Analytics tab error: {e}")
         
         with tab3:
-            st.header("🔍 Data Explorer")
+            st.header("Data Explorer")
             st.markdown("*Interactive data exploration with advanced filtering*")
             
             # Enhanced data preview with filters
@@ -1984,7 +1984,7 @@ def main_production():
             
             with preview_col2:
                 # Quick filters
-                st.subheader("⚡ Quick Filters")
+                st.subheader("Quick Filters")
                 
                 # Numeric range filters
                 if numeric_cols:
@@ -2018,10 +2018,10 @@ def main_production():
                 # Display filter results
                 if len(df) < len(st.session_state.selected_df):
                     reduction = len(st.session_state.selected_df) - len(df)
-                    st.info(f"🔽 Filtered out {reduction:,} rows")
+                    st.info(f"Filtered out {reduction:,} rows")
             
             with preview_col1:
-                st.subheader("📋 Data Sample")
+                st.subheader("Data Sample")
                 
                 # Display options
                 display_col1, display_col2, display_col3 = st.columns(3)
@@ -2048,7 +2048,7 @@ def main_production():
                 )
                 
                 # Quick statistics
-                st.subheader("📊 Quick Statistics")
+                st.subheader("Quick Statistics")
                 if len(numeric_cols) > 0:
                     stat_col = st.selectbox("Column for statistics:", numeric_cols, key="quick_stats_col")
                     if stat_col:
@@ -2065,18 +2065,18 @@ def main_production():
                                 st.metric("Missing", f"{df[stat_col].isnull().sum():,}")
         
         with tab4:
-            st.header("🧹 Data Cleaning Studio")
+            st.header("Data Cleaning Studio")
             st.markdown("*AI-powered data cleaning with manual overrides*")
             
             if st.session_state.data_loaded:
                 # Generate cleaning suggestions
-                with st.spinner("🔍 Analyzing data quality..."):
+                with st.spinner("Analyzing data quality..."):
                     cleaning_suggestions = suggest_cleaning_production(df_hash)
                 
                 if not cleaning_suggestions:
-                    st.success("✅ No immediate cleaning suggestions. Your data looks good!")
+                    st.success("No immediate cleaning suggestions. Your data looks good!")
                 else:
-                    st.subheader("🎯 AI Cleaning Suggestions")
+                    st.subheader("AI Cleaning Suggestions")
                     
                     # Create suggestions dataframe
                     suggestions_df = pd.DataFrame([
@@ -2101,7 +2101,7 @@ def main_production():
                     )
                     
                     # Apply suggestions interface
-                    st.subheader("⚡ Quick Actions")
+                    st.subheader("Quick Actions")
                     action_col1, action_col2 = st.columns(2)
                     
                     with action_col1:
@@ -2111,7 +2111,7 @@ def main_production():
                             key="cleaning_suggestion_selector"
                         )
                         
-                        if st.button("🚀 Apply Selected", key="apply_selected_cleaning"):
+                        if st.button("Apply Selected", key="apply_selected_cleaning"):
                             suggestion_idx = next(
                                 (i for i, s in enumerate(cleaning_suggestions)
                                  if f"{s['column']} - {s['description']}" == selected_suggestion),
@@ -2123,15 +2123,15 @@ def main_production():
                                     success, message = apply_cleaning_suggestion_production(cleaning_suggestions[suggestion_idx])
                                 
                                 if success:
-                                    st.success(f"✅ {message}")
+                                    st.success(f"{message}")
                                     st.session_state.dfs[selected_file] = st.session_state.selected_df
                                     time.sleep(1)  # Brief pause for user feedback
                                     st.rerun()
                                 else:
-                                    st.error(f"❌ {message}")
+                                    st.error(f"{message}")
                     
                     with action_col2:
-                        if st.button("🎯 Apply High Priority", key="apply_high_priority"):
+                        if st.button("Apply High Priority", key="apply_high_priority"):
                             high_priority_suggestions = [s for s in cleaning_suggestions if s['severity'] == 'high']
                             
                             if not high_priority_suggestions:
@@ -2147,13 +2147,13 @@ def main_production():
                                             st.warning(f"⚠️ {message}")
                                 
                                 if success_count > 0:
-                                    st.success(f"✅ Applied {success_count} cleaning operations successfully!")
+                                    st.success(f"Applied {success_count} cleaning operations successfully!")
                                     st.session_state.dfs[selected_file] = st.session_state.selected_df
                                     time.sleep(1)
                                     st.rerun()
                 
                 # Manual cleaning tools
-                with st.expander("🛠️ Manual Cleaning Tools", expanded=False):
+                with st.expander("Manual Cleaning Tools", expanded=False):
                     manual_col1, manual_col2, manual_col3 = st.columns(3)
                     
                     with manual_col1:
@@ -2169,7 +2169,7 @@ def main_production():
                             custom_value = None
                     
                     with manual_col3:
-                        if st.button("🔧 Apply Manual Cleaning", key="apply_manual_cleaning"):
+                        if st.button("Apply Manual Cleaning", key="apply_manual_cleaning"):
                             try:
                                 df_cleaned = df.copy()
                                 original_missing = df_cleaned[clean_column].isnull().sum()
@@ -2219,12 +2219,12 @@ def main_production():
                                 st.rerun()
                                 
                             except Exception as e:
-                                st.error(f"❌ Manual cleaning failed: {str(e)}")
+                                st.error(f"Manual cleaning failed: {str(e)}")
             else:
-                st.info("📤 Please load a dataset to access cleaning features.")
+                st.info("Please load a dataset to access cleaning features.")
         
         with tab5:
-            st.header("🚨 Advanced Anomaly Detection")
+            st.header("Advanced Anomaly Detection")
             st.markdown("*Multiple detection algorithms with interactive visualization*")
             
             if not numeric_cols:
@@ -2235,14 +2235,14 @@ def main_production():
                 
                 with config_col1:
                     anomaly_method = st.selectbox(
-                        "🔍 Detection Method:", 
+                        "Detection Method:", 
                         ANOMALY_METHODS, 
                         key="anomaly_method_prod"
                     )
                 
                 with config_col2:
                     selected_features = st.multiselect(
-                        "📊 Features:", 
+                        "Features:", 
                         numeric_cols, 
                         default=numeric_cols[:min(4, len(numeric_cols))], 
                         key="anomaly_features_prod"
@@ -2251,18 +2251,18 @@ def main_production():
                 with config_col3:
                     # Method-specific parameters
                     if anomaly_method == "IsolationForest" and SKLEARN_AVAILABLE:
-                        param_value = st.slider("🎯 Contamination Rate:", 0.01, 0.3, 0.1, key="isolation_contamination")
+                        param_value = st.slider("Contamination Rate:", 0.01, 0.3, 0.1, key="isolation_contamination")
                         params = {"contamination": param_value}
                     elif anomaly_method in ["Z-Score", "Modified Z-Score"]:
-                        param_value = st.slider("📏 Threshold:", 1.0, 5.0, 3.0 if anomaly_method == "Z-Score" else 3.5, key="z_threshold_prod")
+                        param_value = st.slider("Threshold:", 1.0, 5.0, 3.0 if anomaly_method == "Z-Score" else 3.5, key="z_threshold_prod")
                         params = {"threshold": param_value}
                     else:  # IQR
-                        param_value = st.slider("📐 IQR Multiplier:", 0.5, 3.0, 1.5, key="iqr_multiplier_prod")
+                        param_value = st.slider("IQR Multiplier:", 0.5, 3.0, 1.5, key="iqr_multiplier_prod")
                         params = {"multiplier": param_value}
                 
                 with config_col4:
-                    if st.button("🔍 Detect Anomalies", key="detect_anomalies_prod", type="primary") and selected_features:
-                        with st.spinner(f"🔄 Running {anomaly_method} detection..."):
+                    if st.button("Detect Anomalies", key="detect_anomalies_prod", type="primary") and selected_features:
+                        with st.spinner(f"Running {anomaly_method} detection..."):
                             anomaly_result = detect_anomalies_production(df_hash, anomaly_method, params, selected_features)
                             st.session_state.anomaly_results = anomaly_result
                 
@@ -2271,19 +2271,19 @@ def main_production():
                     result = st.session_state.anomaly_results
                     
                     # Summary metrics
-                    st.subheader("📊 Detection Summary")
+                    st.subheader("Detection Summary")
                     summary_col1, summary_col2, summary_col3, summary_col4, summary_col5 = st.columns(5)
                     
                     with summary_col1:
-                        st.metric("🔍 Method", result["method"])
+                        st.metric("Method", result["method"])
                     with summary_col2:
-                        st.metric("🚨 Anomalies", f"{result['outlier_count']:,}")
+                        st.metric("Anomalies", f"{result['outlier_count']:,}")
                     with summary_col3:
-                        st.metric("📈 Rate", f"{result.get('anomaly_rate', 0):.1f}%")
+                        st.metric("Rate", f"{result.get('anomaly_rate', 0):.1f}%")
                     with summary_col4:
-                        st.metric("🎯 Features", len(result['columns']))
+                        st.metric("Features", len(result['columns']))
                     with summary_col5:
-                        st.metric("⚡ Time", f"{result.get('processing_time', 0):.2f}s")
+                        st.metric("Time", f"{result.get('processing_time', 0):.2f}s")
                     
                     # Quality warnings
                     if result.get('quality_warnings'):
@@ -2292,7 +2292,7 @@ def main_production():
                     
                     # Visualization
                     if len(result['columns']) >= 2 and result['outlier_count'] > 0:
-                        st.subheader("📈 Anomaly Visualization")
+                        st.subheader("Anomaly Visualization")
                         
                         viz_col1, viz_col2 = st.columns([3, 1])
                         
@@ -2323,7 +2323,7 @@ def main_production():
                                             y=y_feature,
                                             color='anomaly_score',
                                             symbol='is_anomaly',
-                                            title=f"🚨 Anomaly Detection: {result['method']}",
+                                            title=f"Anomaly Detection: {result['method']}",
                                             labels={'is_anomaly': 'Anomaly', 'anomaly_score': 'Anomaly Score'},
                                             color_continuous_scale="Viridis",
                                             height=500
@@ -2335,7 +2335,7 @@ def main_production():
                                             y=y_feature,
                                             color='is_anomaly',
                                             size='anomaly_score',
-                                            title=f"🚨 Anomaly Detection: {result['method']}",
+                                            title=f"Anomaly Detection: {result['method']}",
                                             color_discrete_map={True: 'red', False: 'blue'},
                                             labels={'is_anomaly': 'Anomaly'},
                                             height=500
@@ -2350,18 +2350,18 @@ def main_production():
                                     
                                     # Additional insights
                                     if result['outlier_count'] > 0:
-                                        st.info(f"💡 Found {result['outlier_count']} anomalies out of {len(result['outliers']):,} data points{result.get('sample_note', '')}")
+                                        st.info(f"Found {result['outlier_count']} anomalies out of {len(result['outliers']):,} data points{result.get('sample_note', '')}")
                                 else:
                                     st.warning("No data points to visualize.")
                                     
                             except Exception as e:
-                                st.error(f"❌ Visualization error: {str(e)}")
+                                st.error(f"Visualization error: {str(e)}")
                                 if LOGGING_ENABLED:
                                     logging.error(f"Anomaly visualization error: {e}")
                     
                     # Anomaly details table
                     if result['outlier_count'] > 0:
-                        with st.expander("📋 Anomaly Details", expanded=False):
+                        with st.expander("Anomaly Details", expanded=False):
                             try:
                                 anomaly_details = st.session_state.selected_df.loc[result['index']].copy()
                                 anomaly_details['anomaly_score'] = result['anomaly_scores']
@@ -2376,28 +2376,28 @@ def main_production():
                                 )
                                 
                                 # Export options
-                                if st.button("💾 Export Anomalies", key="export_anomalies"):
+                                if st.button("Export Anomalies", key="export_anomalies"):
                                     csv_data = anomaly_data.to_csv(index=False)
                                     st.download_button(
-                                        "📥 Download Anomalies CSV",
+                                        "Download Anomalies CSV",
                                         csv_data,
                                         f"anomalies_{selected_file}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
                                         "text/csv"
                                     )
                                     
                             except Exception as e:
-                                st.error(f"❌ Error displaying anomaly details: {str(e)}")
+                                st.error(f"Error displaying anomaly details: {str(e)}")
                 
                 elif st.session_state.anomaly_results and "error" in st.session_state.anomaly_results:
-                    st.error(f"❌ {st.session_state.anomaly_results['error']}")
+                    st.error(f"{st.session_state.anomaly_results['error']}")
         
         with tab6:
-            st.header("📈 Interactive Visualization Studio")
+            st.header("Interactive Visualization Studio")
             st.markdown("*Create publication-ready visualizations with AI assistance*")
             
             # Sidebar controls for visualizations
             with st.sidebar:
-                st.subheader("🎨 Visualization Controls")
+                st.subheader("Visualization Controls")
                 
                 # AI chart suggestions
                 if len(numeric_cols) > 0 or len(categorical_cols) > 0:
@@ -2410,13 +2410,13 @@ def main_production():
                     else:
                         suggestions = ["Bar Chart"]
                     
-                    st.info(f"🤖 AI Suggests: {', '.join(suggestions[:2])}")
+                    st.info(f"AI Suggests: {', '.join(suggestions[:2])}")
                 
                 # Chart management
                 chart_control_col1, chart_control_col2 = st.columns(2)
                 
                 with chart_control_col1:
-                    if st.button("➕ Add Chart", key="add_chart_viz"):
+                    if st.button("Add Chart", key="add_chart_viz"):
                         new_chart = {
                             "chart_type": suggestions[0] if 'suggestions' in locals() else "Bar Chart",
                             "id": len(st.session_state.chart_configs),
@@ -2432,16 +2432,16 @@ def main_production():
             
             # Chart creation interface
             if not st.session_state.chart_configs:
-                st.info("👆 Click 'Add Chart' in the sidebar to create your first visualization")
+                st.info("Click 'Add Chart' in the sidebar to create your first visualization")
                 
                 # Quick start options
-                st.subheader("🚀 Quick Start")
+                st.subheader("Quick Start")
                 quick_col1, quick_col2, quick_col3 = st.columns(3)
                 
                 quick_charts = [
-                    ("📊 Data Overview", "Correlation Heatmap"),
-                    ("📈 Distribution", "Histogram"),
-                    ("🎯 Relationships", "Scatter Plot")
+                    ("Data Overview", "Correlation Heatmap"),
+                    ("Distribution", "Histogram"),
+                    ("Relationships", "Scatter Plot")
                 ]
                 
                 for i, (label, chart_type) in enumerate(quick_charts):
@@ -2457,7 +2457,7 @@ def main_production():
             
             else:
                 # Multiple chart tabs
-                chart_tabs = st.tabs([f"📊 {config.get('title', f'Chart {i+1}')}" for i, config in enumerate(st.session_state.chart_configs)])
+                chart_tabs = st.tabs([f"{config.get('title', f'Chart {i+1}')}" for i, config in enumerate(st.session_state.chart_configs)])
                 
                 for tab_idx, chart_tab in enumerate(chart_tabs):
                     with chart_tab:
@@ -2465,7 +2465,7 @@ def main_production():
                             config = st.session_state.chart_configs[tab_idx]
                             
                             # Chart configuration
-                            st.subheader("🎛️ Chart Configuration")
+                            st.subheader("Chart Configuration")
                             config_col1, config_col2, config_col3, config_col4 = st.columns(4)
                             
                             with config_col1:
@@ -2521,7 +2521,7 @@ def main_production():
                                     color_col = None
                             
                             # Advanced options
-                            with st.expander("🎨 Advanced Options", expanded=False):
+                            with st.expander("Advanced Options", expanded=False):
                                 adv_col1, adv_col2, adv_col3 = st.columns(3)
                                 
                                 with adv_col1:
@@ -2670,25 +2670,25 @@ def main_production():
                                 # Chart export options
                                 export_col1, export_col2 = st.columns(2)
                                 with export_col1:
-                                    if st.button(f"💾 Export PNG", key=f"export_png_{tab_idx}"):
-                                        st.info("💡 Right-click the chart and select 'Download plot as png'")
+                                    if st.button(f"Export PNG", key=f"export_png_{tab_idx}"):
+                                        st.info("Right-click the chart and select 'Download plot as png'")
                                 with export_col2:
-                                    if st.button(f"📊 Export Data", key=f"export_data_{tab_idx}"):
+                                    if st.button(f"Export Data", key=f"export_data_{tab_idx}"):
                                         chart_data = plot_df.to_csv(index=False)
                                         st.download_button(
-                                            "📥 Download Chart Data",
+                                            "Download Chart Data",
                                             chart_data,
                                             f"chart_data_{tab_idx}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
                                             "text/csv"
                                         )
                             
                             elif error_message:
-                                st.error(f"❌ {error_message}")
+                                st.error(f"{error_message}")
                             else:
-                                st.info("🎨 Configure your chart using the options above")
+                                st.info("Configure your chart using the options above")
         
         with tab7:
-            st.header("🧠 Machine Learning Studio")
+            st.header("Machine Learning Studio")
             
             if not SKLEARN_AVAILABLE:
                 st.warning("⚠️ Machine Learning features are not available. Please install scikit-learn to use ML capabilities.")
@@ -2707,7 +2707,7 @@ def main_production():
             # Clustering Section
             with ml_col1:
                 with st.container():
-                    st.subheader("🔗 Advanced Clustering")
+                    st.subheader("Advanced Clustering")
                     
                     if not numeric_cols:
                         st.warning("⚠️ No numeric columns available for clustering")
@@ -2722,7 +2722,7 @@ def main_production():
                                 key="clustering_features_ml"
                             )
                             
-                            auto_k = st.checkbox("🤖 Auto-optimize clusters", value=True, key="auto_k_ml")
+                            auto_k = st.checkbox("Auto-optimize clusters", value=True, key="auto_k_ml")
                         
                         with cluster_col2:
                             if auto_k:
@@ -2730,21 +2730,21 @@ def main_production():
                             else:
                                 k_clusters = st.slider("Number of clusters:", 2, 10, 3, key="manual_k_ml")
                             
-                            preprocessing = st.checkbox("🔧 Standardize features", value=True, key="cluster_preprocess")
+                            preprocessing = st.checkbox("Standardize features", value=True, key="cluster_preprocess")
                         
-                        if st.button("🚀 Run Clustering Analysis", key="run_clustering_ml", type="primary") and clustering_features:
-                            with st.spinner("🔄 Performing clustering analysis..."):
+                        if st.button("Run Clustering Analysis", key="run_clustering_ml", type="primary") and clustering_features:
+                            with st.spinner("Performing clustering analysis..."):
                                 try:
                                     # Prepare data
                                     cluster_data = df[clustering_features].dropna()
                                     
                                     if len(cluster_data) < 10:
-                                        st.error("❌ Not enough data points for clustering")
+                                        st.error("Not enough data points for clustering")
                                     else:
                                         # Sample for performance
                                         if len(cluster_data) > SAMPLE_SIZE_LARGE:
                                             cluster_data = cluster_data.sample(n=SAMPLE_SIZE_LARGE, random_state=42)
-                                            st.info(f"ℹ️ Using sample of {len(cluster_data):,} rows for performance")
+                                            st.info(f"Using sample of {len(cluster_data):,} rows for performance")
                                         
                                         if auto_k:
                                             # Find optimal k using silhouette score
@@ -2785,13 +2785,13 @@ def main_production():
                                             # Results display
                                             result_col1, result_col2, result_col3, result_col4 = st.columns(4)
                                             with result_col1:
-                                                st.metric("🎯 Optimal Clusters", best_k)
+                                                st.metric("Optimal Clusters", best_k)
                                             with result_col2:
-                                                st.metric("📊 Silhouette Score", f"{best_score:.3f}")
+                                                st.metric("Silhouette Score", f"{best_score:.3f}")
                                             with result_col3:
-                                                st.metric("📈 Inertia", f"{final_kmeans.inertia_:.0f}")
+                                                st.metric("Inertia", f"{final_kmeans.inertia_:.0f}")
                                             with result_col4:
-                                                st.metric("🔗 Data Points", f"{len(cluster_data):,}")
+                                                st.metric("Data Points", f"{len(cluster_data):,}")
                                             
                                             # Visualization
                                             if len(clustering_features) >= 2:
@@ -2803,7 +2803,7 @@ def main_production():
                                                     x=clustering_features[0],
                                                     y=clustering_features[1],
                                                     color='Cluster',
-                                                    title=f"🔗 K-Means Clustering (k={best_k})",
+                                                    title=f"K-Means Clustering (k={best_k})",
                                                     height=400
                                                 )
                                                 
@@ -2816,7 +2816,7 @@ def main_production():
                                                 'Percentage': [np.sum(final_labels == i) / len(final_labels) * 100 for i in range(best_k)]
                                             })
                                             
-                                            st.subheader("📊 Cluster Summary")
+                                            st.subheader("Cluster Summary")
                                             st.dataframe(cluster_summary, use_container_width=True)
                                         
                                         else:
@@ -2846,17 +2846,17 @@ def main_production():
                                                 
                                                 st.plotly_chart(fig_cluster, use_container_width=True)
                                             
-                                            st.success(f"✅ Clustering completed with {k_clusters} clusters")
+                                            st.success(f"Clustering completed with {k_clusters} clusters")
                                         
                                 except Exception as e:
-                                    st.error(f"❌ Clustering failed: {str(e)}")
+                                    st.error(f"Clustering failed: {str(e)}")
                                     if LOGGING_ENABLED:
                                         logging.error(f"Clustering error: {e}")
             
             # Supervised Learning Section
             with ml_col2:
                 with st.container():
-                    st.subheader("🎯 Supervised Learning")
+                    st.subheader("Supervised Learning")
                     
                     # Model configuration
                     model_col1, model_col2 = st.columns(2)
@@ -2864,14 +2864,14 @@ def main_production():
                     with model_col1:
                         available_features = numeric_cols + categorical_cols
                         x_features = st.multiselect(
-                            "📊 Features (X):",
+                            "Features (X):",
                             available_features,
                             default=numeric_cols[:min(4, len(numeric_cols))],
                             key="ml_x_features"
                         )
                         
                         algorithm = st.selectbox(
-                            "🤖 Algorithm:",
+                            "Algorithm:",
                             ["RandomForest", "MLP", "AutoML Comparison"],
                             key="ml_algorithm"
                         )
@@ -2879,7 +2879,7 @@ def main_production():
                     with model_col2:
                         # Target selection
                         target_options = [col for col in df.columns if col not in x_features]
-                        y_target = st.selectbox("🎯 Target (Y):", target_options, key="ml_y_target")
+                        y_target = st.selectbox("Target (Y):", target_options, key="ml_y_target")
                         
                         # Task type detection/selection
                         if y_target:
@@ -2890,7 +2890,7 @@ def main_production():
                                 default_task = "regression"
                             
                             task_type = st.selectbox(
-                                "📋 Task Type:",
+                                "Task Type:",
                                 ["regression", "classification"],
                                 index=0 if default_task == "regression" else 1,
                                 key="ml_task_type"
@@ -2899,12 +2899,12 @@ def main_production():
                             task_type = "regression"
                     
                     # Advanced options
-                    with st.expander("⚙️ Advanced Options", expanded=False):
+                    with st.expander("Advanced Options", expanded=False):
                         adv_col1, adv_col2, adv_col3 = st.columns(3)
                         
                         with adv_col1:
-                            enable_preprocessing = st.checkbox("🔧 Auto preprocessing", value=True, key="ml_preprocessing")
-                            enable_tuning = st.checkbox("🎯 Hyperparameter tuning", value=False, key="ml_tuning")
+                            enable_preprocessing = st.checkbox("Auto preprocessing", value=True, key="ml_preprocessing")
+                            enable_tuning = st.checkbox("Hyperparameter tuning", value=False, key="ml_tuning")
                         
                         with adv_col2:
                             if algorithm == "MLP":
@@ -2921,8 +2921,8 @@ def main_production():
                             random_state = st.number_input("Random seed:", value=42, key="ml_random_state")
                     
                     # Train model
-                    if st.button("🚀 Train Model", key="train_ml_model", type="primary") and x_features and y_target:
-                        with st.spinner(f"🔄 Training {algorithm} model..."):
+                    if st.button("Train Model", key="train_ml_model", type="primary") and x_features and y_target:
+                        with st.spinner(f"Training {algorithm} model..."):
                             try:
                                 # Prepare parameters
                                 model_params = {}
@@ -2941,7 +2941,7 @@ def main_production():
                                 # Train model
                                 if algorithm == "AutoML Comparison":
                                     # Compare multiple models
-                                    with st.status("🔄 Training multiple models...", expanded=True) as status:
+                                    with st.status("Training multiple models...", expanded=True) as status:
                                         results = {}
                                         models_to_compare = ["RandomForest", "MLP"]
                                         
@@ -2953,11 +2953,11 @@ def main_production():
                                             )
                                             results[model_name] = result
                                         
-                                        status.update(label="✅ Model comparison completed!", state="complete")
+                                        status.update(label="Model comparison completed!", state="complete")
                                     
                                     # Display comparison results
                                     if results:
-                                        st.subheader("🏆 Model Comparison Results")
+                                        st.subheader("Model Comparison Results")
                                         
                                         comparison_data = []
                                         for model_name, result in results.items():
@@ -2979,12 +2979,12 @@ def main_production():
                                             
                                             # Best model highlight
                                             best_model = comparison_df.loc[comparison_df["Key Metric"].astype(float).idxmax(), "Model"]
-                                            st.success(f"🏆 Best model: **{best_model}**")
+                                            st.success(f"Best model: **{best_model}**")
                                             
                                             # Detailed metrics for best model
                                             best_result = results[best_model]
                                             if "error" not in best_result:
-                                                st.subheader(f"📊 {best_model} Detailed Metrics")
+                                                st.subheader(f"{best_model} Detailed Metrics")
                                                 metrics_df = pd.DataFrame([
                                                     {"Metric": k.title(), "Value": f"{v:.4f}" if isinstance(v, (int, float)) else str(v)}
                                                     for k, v in best_result["metrics"].items()
@@ -2999,9 +2999,9 @@ def main_production():
                                     )
                                     
                                     if "error" in result:
-                                        st.error(f"❌ {result['error']}")
+                                        st.error(f"{result['error']}")
                                     else:
-                                        st.success(f"✅ {algorithm} model trained successfully!")
+                                        st.success(f"{algorithm} model trained successfully!")
                                         
                                         # Display metrics
                                         metric_col1, metric_col2, metric_col3, metric_col4 = st.columns(4)
@@ -3009,16 +3009,16 @@ def main_production():
                                         key_metric = "r2" if task_type == "regression" else "f1"
                                         
                                         with metric_col1:
-                                            st.metric("🎯 Key Metric", f"{result['metrics'].get(key_metric, 0):.4f}")
+                                            st.metric("Key Metric", f"{result['metrics'].get(key_metric, 0):.4f}")
                                         with metric_col2:
-                                            st.metric("⏱️ Training Time", f"{result.get('training_time', 0):.2f}s")
+                                            st.metric("Training Time", f"{result.get('training_time', 0):.2f}s")
                                         with metric_col3:
-                                            st.metric("📊 Features", result.get('n_features', 0))
+                                            st.metric("Features", result.get('n_features', 0))
                                         with metric_col4:
-                                            st.metric("🔢 Samples", result.get('n_samples', 0))
+                                            st.metric("Samples", result.get('n_samples', 0))
                                         
                                         # Detailed metrics
-                                        with st.expander("📋 Detailed Metrics", expanded=False):
+                                        with st.expander("Detailed Metrics", expanded=False):
                                             metrics_df = pd.DataFrame([
                                                 {"Metric": k.title().replace('_', ' '), "Value": f"{v:.4f}" if isinstance(v, (int, float)) else str(v)}
                                                 for k, v in result["metrics"].items()
@@ -3027,7 +3027,7 @@ def main_production():
                                         
                                         # Feature importance (if available)
                                         if "feature_importance" in result:
-                                            st.subheader("📊 Feature Importance")
+                                            st.subheader("Feature Importance")
                                             importance_df = pd.DataFrame([
                                                 {"Feature": k, "Importance": v}
                                                 for k, v in result["feature_importance"].items()
@@ -3045,18 +3045,18 @@ def main_production():
                                             st.plotly_chart(fig_importance, use_container_width=True)
                                 
                             except Exception as e:
-                                st.error(f"❌ Model training failed: {str(e)}")
+                                st.error(f"Model training failed: {str(e)}")
                                 if LOGGING_ENABLED:
                                     logging.error(f"ML training error: {e}")
         
         with tab8:
-            st.header("⚙️ Settings & Preferences")
+            st.header("Settings & Preferences")
             st.markdown("*Customize your analytics experience*")
             
             settings_col1, settings_col2 = st.columns(2)
             
             with settings_col1:
-                st.subheader("🎨 Appearance")
+                st.subheader("Appearance")
                 
                 # Theme settings
                 new_theme = st.selectbox(
@@ -3068,12 +3068,12 @@ def main_production():
                 
                 if new_theme != st.session_state.theme_preference:
                     st.session_state.theme_preference = new_theme
-                    st.success("✅ Theme updated!")
+                    st.success("Theme updated!")
                     time.sleep(0.5)
                     st.rerun()
                 
                 # Performance settings
-                st.subheader("⚡ Performance")
+                st.subheader("Performance")
                 
                 perf_mode = st.selectbox(
                     "Performance Mode:",
@@ -3085,11 +3085,11 @@ def main_production():
                 st.session_state.user_preferences['performance_mode'] = perf_mode.lower()
                 
                 if perf_mode == "Performance":
-                    st.info("🏃 Optimized for speed - uses aggressive sampling")
+                    st.info("Optimized for speed - uses aggressive sampling")
                 elif perf_mode == "Quality":
-                    st.info("🎯 Optimized for accuracy - uses full datasets when possible")
+                    st.info("Optimized for accuracy - uses full datasets when possible")
                 else:
-                    st.info("⚖️ Balanced speed and accuracy")
+                    st.info("Balanced speed and accuracy")
                 
                 # Data handling preferences
                 auto_sample = st.checkbox(
@@ -3107,7 +3107,7 @@ def main_production():
                 st.session_state.user_preferences['enable_caching'] = enable_caching
             
             with settings_col2:
-                st.subheader("📊 System Information")
+                st.subheader("System Information")
                 
                 # Memory usage
                 memory_info = monitor_memory_usage()
@@ -3123,17 +3123,17 @@ def main_production():
                 st.metric("Cached Models", len(st.session_state.trained_models))
                 
                 # System actions
-                st.subheader("🔧 System Actions")
+                st.subheader("System Actions")
                 
                 action_col1, action_col2 = st.columns(2)
                 
                 with action_col1:
-                    if st.button("🧹 Clear Cache", key="settings_clear_cache"):
+                    if st.button("Clear Cache", key="settings_clear_cache"):
                         cleanup_memory()
                         st.cache_data.clear()
-                        st.success("✅ Cache cleared!")
+                        st.success("Cache cleared!")
                     
-                    if st.button("📊 Export Session", key="settings_export_session"):
+                    if st.button("Export Session", key="settings_export_session"):
                         session_data = {
                             "datasets": {k: {"shape": v.shape, "columns": list(v.columns)} for k, v in st.session_state.dfs.items()},
                             "session_duration": session_time,
@@ -3144,29 +3144,29 @@ def main_production():
                         
                         session_json = json.dumps(session_data, indent=2)
                         st.download_button(
-                            "📥 Download Session Data",
+                            "Download Session Data",
                             session_json,
                             f"session_data_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
                             "application/json"
                         )
                 
                 with action_col2:
-                    if st.button("🔄 Soft Reset", key="settings_soft_reset"):
+                    if st.button("Soft Reset", key="settings_soft_reset"):
                         st.session_state.chart_configs = []
                         st.session_state.filter_state = {}
                         st.session_state.chat_history = []
-                        st.success("✅ Interface reset!")
+                        st.success("Interface reset!")
                     
-                    if st.button("🚨 Full Reset", key="settings_full_reset", type="secondary"):
+                    if st.button("Full Reset", key="settings_full_reset", type="secondary"):
                         for key in list(st.session_state.keys()):
                             if key not in ['theme_preference', 'user_preferences']:
                                 del st.session_state[key]
-                        st.success("✅ Full reset completed!")
+                        st.success("Full reset completed!")
                         time.sleep(1)
                         st.rerun()
                 
                 # Diagnostic information
-                with st.expander("🔍 Diagnostic Information", expanded=False):
+                with st.expander("Diagnostic Information", expanded=False):
                     st.json({
                         "sklearn_available": SKLEARN_AVAILABLE,
                         "logging_enabled": LOGGING_ENABLED,
@@ -3185,40 +3185,40 @@ def main_production():
         if LOGGING_ENABLED:
             logging.error(f"Main application error: {error_msg}")
         
-        st.error(f"❌ {error_msg}")
+        st.error(f"{error_msg}")
         
-        st.subheader("🔧 Error Recovery")
+        st.subheader("Error Recovery")
         st.markdown("Try one of these recovery options:")
         
         recovery_col1, recovery_col2, recovery_col3, recovery_col4 = st.columns(4)
         
         with recovery_col1:
-            if st.button("🔄 Soft Reload", key="error_soft_reload"):
+            if st.button("Soft Reload", key="error_soft_reload"):
                 st.rerun()
         
         with recovery_col2:
-            if st.button("🧹 Clear Cache", key="error_clear_cache"):
+            if st.button("Clear Cache", key="error_clear_cache"):
                 cleanup_memory()
                 st.cache_data.clear()
                 st.cache_resource.clear()
-                st.success("✅ Cache cleared!")
+                st.success("Cache cleared!")
                 time.sleep(1)
                 st.rerun()
         
         with recovery_col3:
-            if st.button("📊 Reset Data", key="error_reset_data"):
+            if st.button("Reset Data", key="error_reset_data"):
                 st.session_state.dfs = {}
                 st.session_state.selected_df = None
                 st.session_state.data_loaded = False
-                st.success("✅ Data reset!")
+                st.success("Data reset!")
                 time.sleep(1)
                 st.rerun()
         
         with recovery_col4:
-            if st.button("🚨 Emergency Reset", key="error_emergency_reset"):
+            if st.button("Emergency Reset", key="error_emergency_reset"):
                 for key in list(st.session_state.keys()):
                     del st.session_state[key]
-                st.success("✅ Emergency reset completed!")
+                st.success("Emergency reset completed!")
                 time.sleep(1)
                 st.rerun()
 
@@ -3228,10 +3228,11 @@ if __name__ == "__main__":
         # Initialize and run production application
         main_production()
     except Exception as e:
-        st.error(f"🚨 Critical application error: {str(e)}")
+        st.error(f"Critical application error: {str(e)}")
         
         # Last resort recovery
-        if st.button("🆘 Force Restart", key="force_restart"):
+        if st.button("Force Restart", key="force_restart"):
             st.cache_data.clear()
             st.cache_resource.clear()
             st.rerun()
+
