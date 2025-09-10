@@ -1522,7 +1522,7 @@ def main_production():
         header_col1, header_col2, header_col3, header_col4 = st.columns([3, 1, 1, 1])
         
         with header_col1:
-            st.title(" Enterprise Data Analytics Platform - Production")
+            st.title(" Enterprise Data Analytics Platform")
             st.markdown("*AI-Powered • Production-Ready • Performance-Optimized*")
         
         with header_col2:
@@ -3235,4 +3235,5 @@ if __name__ == "__main__":
             st.cache_data.clear()
             st.cache_resource.clear()
             st.rerun()
+
 
