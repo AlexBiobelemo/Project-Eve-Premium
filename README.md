@@ -228,7 +228,7 @@ CMD ["streamlit", "run", "app_production.py", "--server.headless", "true"]
 
 ## License
 
-This project is provided as-is for educational and development purposes.
+This code is proprietary. You may not use, copy, modify, or distribute it without explicit permission from the author
 
 ## Support
 
@@ -257,5 +257,6 @@ After installation:
 4. **Create Visualizations** - Build interactive charts and dashboards
 5. **Train ML Models** - Experience AutoML with model comparison
 6. **Monitor Performance** - Check system resources in real-time
+
 
 
