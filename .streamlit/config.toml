@@ -1,0 +1,31 @@
+[global]
+# Production settings for Streamlit Cloud deployment
+developmentMode = false
+showWarningOnDirectExecution = false
+
+[server]
+# Server configuration for cloud deployment
+headless = true
+enableCORS = false
+enableXsrfProtection = true
+maxUploadSize = 500
+
+[browser]
+# Browser settings
+gatherUsageStats = false
+
+[theme]
+# Default theme (users can override in the app)
+primaryColor = "#FF6B6B"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F0F2F6"
+textColor = "#262730"
+font = "sans serif"
+
+[client]
+# Client settings for better performance
+caching = true
+
+[logger]
+# Logging configuration
+level = "info"
