@@ -39,7 +39,7 @@ try:
     SKLEARN_AVAILABLE = True
 except ImportError:
     SKLEARN_AVAILABLE = False
-    st.warning("⚠️ Machine Learning features disabled: scikit-learn not available")
+    st.warning(" Machine Learning features disabled: scikit-learn not available")
 
 warnings.filterwarnings('ignore')
 
@@ -63,11 +63,18 @@ CHART_OPTIONS: List[str] = [
 ]
 AGG_OPTIONS: List[str] = ['mean', 'sum', 'median', 'count', 'min', 'max', 'std', 'var']
 THEME_OPTIONS: List[str] = ["plotly", "plotly_dark", "seaborn", "ggplot2", "simple_white", "presentation"]
-ACCESSIBILITY_THEMES: List[str] = ["Light", "Dark", "High Contrast", "Colorblind Friendly"]
+ACCESSIBILITY_THEMES: List[str] = ["Light", "Dark", "Colorblind Friendly"]
 COLOR_PALETTES: List[str] = ["Viridis", "Plasma", "Inferno", "Magma", "Turbo", "Cividis", "Blues", "Greens"]
 ML_MODELS: List[str] = ["RandomForest", "MLP", "IsolationForest"] if SKLEARN_AVAILABLE else []
 CLEANING_METHODS: List[str] = ["mean", "median", "mode", "drop", "forward_fill", "backward_fill", "interpolate"]
 ANOMALY_METHODS: List[str] = ["IsolationForest", "Z-Score", "Modified Z-Score", "IQR"] if SKLEARN_AVAILABLE else ["Z-Score", "Modified Z-Score", "IQR"]
+
+# Import NLP Testing module
+try:
+    from nlp_test_integration import render_nlp_test_ui
+    NLP_TESTING_AVAILABLE = True
+except ImportError:
+    NLP_TESTING_AVAILABLE = False
 
 # Memory and performance limits
 MAX_MEMORY_MB = 1024  # 1GB memory limit
@@ -1146,7 +1153,7 @@ def apply_cleaning_suggestion_production(suggestion: Dict[str, Any]) -> Tuple[bo
 
 # --- Enhanced Natural Language Processing ---
 def process_natural_query_production(query: str) -> Dict[str, Any]:
-    """Enhanced natural language query processing with better pattern matching."""
+    """Natural language query processing with pattern matching."""
     try:
         query_lower = query.lower().strip()
         response = {"action": None, "message": "", "success": False, "data": None}
@@ -1394,34 +1401,8 @@ def create_production_layout():
     try:
         theme = st.session_state.theme_preference
         
-        if theme == "High Contrast":
-            st.markdown("""
-                <style>
-                .stApp { 
-                    background-color: #000000; 
-                    color: #FFFFFF; 
-                }
-                .stSelectbox > div > div { 
-                    background-color: #000000; 
-                    color: #FFFFFF; 
-                    border: 2px solid #FFFFFF;
-                }
-                .stMetric { 
-                    background: linear-gradient(90deg, #FFFFFF 0%, #CCCCCC 100%);
-                    color: #000000;
-                    padding: 1rem; 
-                    border-radius: 10px; 
-                    border: 2px solid #FFFFFF;
-                }
-                .stButton > button {
-                    background-color: #FFFFFF;
-                    color: #000000;
-                    border: 2px solid #FFFFFF;
-                }
-                </style>
-            """, unsafe_allow_html=True)
             
-        elif theme == "Colorblind Friendly":
+        if theme == "Colorblind Friendly":
             st.markdown("""
                 <style>
                 .stApp { 
@@ -1488,9 +1469,9 @@ def show_performance_metrics():
                 
                 # Performance indicators
                 if memory_info['critical']:
-                    st.error("🚨 Critical memory usage!")
+                    st.error(" Critical memory usage!")
                 elif memory_info['warning']:
-                    st.warning("⚠️ High memory usage")
+                    st.warning(" High memory usage")
                 else:
                     st.success("Normal performance")
                 
@@ -1526,10 +1507,20 @@ def main_production():
             st.markdown("*AI-Powered • Production-Ready • Performance-Optimized*")
         
         with header_col2:
+            current_theme = st.session_state.theme_preference
+            # Handle legacy high contrast theme
+            if current_theme == "High Contrast":
+                current_theme = "Dark"
+                st.session_state.theme_preference = "Dark"
+            
+            theme_index = 0  # Default to Light
+            if current_theme in ACCESSIBILITY_THEMES:
+                theme_index = ACCESSIBILITY_THEMES.index(current_theme)
+            
             theme_choice = st.selectbox(
                 "Theme",
                 ACCESSIBILITY_THEMES,
-                index=ACCESSIBILITY_THEMES.index(st.session_state.theme_preference),
+                index=theme_index,
                 key="theme_selector_prod"
             )
             if theme_choice != st.session_state.theme_preference:
@@ -1800,7 +1791,7 @@ def main_production():
             st.metric("Quality", f"{quality_score:.0f}/100", delta=quality_color)
         
         # Main application tabs with enhanced features
-        tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
+        tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
             "AI Assistant",
             "Analytics",
             "Data Explorer",
@@ -1808,6 +1799,7 @@ def main_production():
             "Anomaly Detection",
             "Visualizations",
             "ML Studio",
+            "NLP Testing",
             "⚙Settings"
         ])
         
@@ -2426,7 +2418,7 @@ def main_production():
                         st.rerun()
                 
                 with chart_control_col2:
-                    if st.session_state.chart_configs and st.button("🗑️ Clear All", key="clear_charts_viz"):
+                    if st.session_state.chart_configs and st.button("Clear All", key="clear_charts_viz"):
                         st.session_state.chart_configs = []
                         st.rerun()
             
@@ -2539,6 +2531,7 @@ def main_production():
                                 with adv_col3:
                                     show_legend = st.checkbox("Show Legend", True, key=f"legend_{tab_idx}")
                                     show_grid = st.checkbox("Show Grid", True, key=f"grid_{tab_idx}")
+                                    show_labels = st.checkbox("Show Data Labels", False, key=f"labels_{tab_idx}", help="Display values on data points")
                             
                             # Chart generation
                             fig = None
@@ -2654,6 +2647,15 @@ def main_production():
                                         yaxis_showgrid=show_grid,
                                         title_x=0.5  # Center title
                                     )
+                                    
+                                    # Add data labels if requested
+                                    if show_labels:
+                                        if chart_type in ["Bar Chart", "Scatter Plot", "Line Chart"]:
+                                            fig.update_traces(texttemplate='%{y}', textposition='outside')
+                                        elif chart_type == "Pie Chart":
+                                            fig.update_traces(textinfo='label+percent', textfont_size=12)
+                                        elif chart_type == "Histogram":
+                                            fig.update_traces(texttemplate='%{y}', textposition='outside')
                                     
                                     # Update config title
                                     st.session_state.chart_configs[tab_idx]["title"] = custom_title
@@ -3050,6 +3052,36 @@ def main_production():
                                     logging.error(f"ML training error: {e}")
         
         with tab8:
+            st.header("Conversational AI Testing")
+            st.markdown("*Validate natural language processing capabilities*")
+            
+            if NLP_TESTING_AVAILABLE:
+                render_nlp_test_ui(process_natural_query_production)
+            else:
+                st.warning("⚠️ Testing module not available - place `nlp_test_integration.py` in your project directory")
+                
+                with st.expander("How to Enable Testing", expanded=True):
+                    st.markdown("""
+                    **Quick Setup:**
+                    1. Ensure `nlp_test_integration.py` is in your project directory
+                    2. Refresh the application
+                    
+                    **Testing Features:**
+                    - **22 comprehensive test prompts**
+                    - **Category-based validation** (Cleaning, Stats, Filtering, Visualization)
+                    - **Performance metrics** and execution timing
+                    - **Professional reports** (HTML/JSON export)
+                    - **Actionable recommendations**
+                    """)
+                
+                col1, col2 = st.columns([1, 3])
+                with col1:
+                    if st.button("Refresh App", type="primary"):
+                        st.rerun()
+                with col2:
+                    st.info("Testing validates your AI assistant's natural language understanding")
+        
+        with tab9:
             st.header("Settings & Preferences")
             st.markdown("*Customize your analytics experience*")
             
@@ -3059,10 +3091,20 @@ def main_production():
                 st.subheader("Appearance")
                 
                 # Theme settings
+                current_theme = st.session_state.theme_preference
+                # Handle legacy high contrast theme
+                if current_theme == "High Contrast":
+                    current_theme = "Dark"  # Fallback to Dark theme
+                    st.session_state.theme_preference = "Dark"
+                
+                theme_index = 0  # Default to Light
+                if current_theme in ACCESSIBILITY_THEMES:
+                    theme_index = ACCESSIBILITY_THEMES.index(current_theme)
+                
                 new_theme = st.selectbox(
                     "Color Theme:",
                     ACCESSIBILITY_THEMES,
-                    index=ACCESSIBILITY_THEMES.index(st.session_state.theme_preference),
+                    index=theme_index,
                     key="settings_theme"
                 )
                 
@@ -3235,5 +3277,4 @@ if __name__ == "__main__":
             st.cache_data.clear()
             st.cache_resource.clear()
             st.rerun()
-
 
