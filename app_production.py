@@ -5435,7 +5435,7 @@ def main_production():
                 auto_save = st.checkbox("Auto-save query results", value=False, key="auto_save_results")
                 
                 # Debug mode
-                debug_mode = st.checkbox("Enable debug mode", value=False, key="debug_mode")
+                #debug_mode = st.checkbox("Enable debug mode", value=False, key="debug_mode")
             
             # Export/Import settings
             st.subheader("Data Management")
@@ -5509,3 +5509,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
