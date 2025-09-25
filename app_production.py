@@ -295,7 +295,7 @@ def load_custom_css():
     
     /* Gentle Streamlit branding removal - keep functionality intact */
     #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
+    #footer {visibility: hidden;}
     
     /* Improve spacing with Streamlit elements */
     .stMetric {
@@ -5509,4 +5509,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
